@@ -37,10 +37,9 @@ jobs:
           git clone https://github.com/shivamdubeyagra/argo-deployment.git
           cd argo-deployment
 
-          sed -i 's|image: shivamdubeyagra/my-app:.*|image: shivamdubeyagra/my-app:${{ github.sha }}|' manifest.yaml
-
+          sed -i 's|image: *shivamdubeyagra/my-app:[^ ]*|image: shivamdubeyagra/my-app:${{ github.sha }}|' prod/my-app/manifest.yaml
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add .
-          git commit -m "Update my-app server image tags to ${{ github.sha }}"
+          git commit -m "Update image to ${{ github.sha }}" || echo "No changes to commit"
           git push https://${PAT}@github.com/shivamdubeyagra/argo-deployment.git main
